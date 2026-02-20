@@ -1,0 +1,67 @@
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\(dashboard)\cards\CardsCatalogClient.tsx
+  57:19  error    Error: Calling setState from useMemo may trigger an infinite loop
+
+Each time the memo callback is evaluated it will change state. This can cause a memoization dependency to change, running the memo function again and causing an infinite loop. Instead of setting state in useMemo(), prefer deriving the value during render. (https://react.dev/reference/react/useState).
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\(dashboard)\cards\CardsCatalogClient.tsx:57:19
+  55 |
+  56 |     // Reset page when filters change
+> 57 |     useMemo(() => setPage(1), [query, selectedSet, selectedColor, selectedRarity, selectedType]);
+     |                   ^^^^^^^ Found setState() within useMemo()
+  58 |
+  59 |     const hasActiveFilters = selectedSet || selectedColor || selectedRarity || selectedType;
+  60 |  react-hooks/set-state-in-render
+  57:31  warning  React Hook useMemo has unnecessary dependencies: 'query', 'selectedColor', 'selectedRarity', 'selectedSet', and 'selectedType'. Either exclude them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/exhaustive-deps
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\(dashboard)\performance\PerformanceClient.tsx
+  9:10  warning  'InsightCard' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\(dashboard)\portfolio\PortfolioClient.tsx
+    6:8   warning  'Image' is defined but never used                  @typescript-eslint/no-unused-vars
+   15:10  warning  'useRouter' is defined but never used              @typescript-eslint/no-unused-vars
+  203:21  warning  'successCount' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\(dashboard)\settings\SettingsClient.tsx
+  22:23  warning  'displayName' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  92:18  warning  'error' is defined but never used                 @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\app\api\cron\update-prices\route.ts
+  19:14  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\auth.ts
+  40:26  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\components\cards\CardSearch.tsx
+  8:10  warning  'cn' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\components\cards\ConvertToPortfolioModal.tsx
+  51:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\components\cards\EditPortfolioItemModal.tsx
+  58:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\components\dashboard\DashboardClient.tsx
+  12:10  warning  'format' is defined but never used   @typescript-eslint/no-unused-vars
+  12:18  warning  'subDays' is defined but never used  @typescript-eslint/no-unused-vars
+  13:8   warning  'Image' is defined but never used    @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\components\dashboard\PortfolioSummary.tsx
+  6:10  warning  'motion' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\lib\actions\history.ts
+  5:27  warning  'startOfDay' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\lib\actions\performance.ts
+   44:11  warning  'thirtyDaysAgo' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  160:11  warning  'sortedMovers' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  219:11  warning  'topGainer' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\next.config.ts
+  1:15  warning  'NextConfig' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\redad\OneDrive\Bureau\one-piece-tcg-finary\scripts\seed-cards.ts
+  158:15  warning  'result' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 23 problems (1 error, 22 warnings)
+

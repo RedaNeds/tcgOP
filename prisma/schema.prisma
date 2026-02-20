@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  id        String   @id // Using the card ID from API (e.g., OP01-001)
+  code      String
+  name      String
+  set       String
+  rarity    String
+  image     String?
+  prices    String?  // JSON string of current price details if needed
+  
+  // Card Metadata for Allocation
+  color     String?
+  type      String?
+  power     Int?
+  attribute String?
+  
+  // Real-time price tracking
+  currentPrice Float   @default(0)
+  
+  priceHistory PriceHistory[]
+  portfolioItems PortfolioItem[]
+  wishlistItems WishlistItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PriceHistory {
+  id        Int      @id @default(autoincrement())
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id])
+  price     Float
+  date      DateTime @default(now())
+  
+  @@index([cardId])
+  @@index([date])
+}
+
+model PortfolioItem {
+  id            String   @id @default(uuid())
+  cardId        String
+  card          Card     @relation(fields: [cardId], references: [id])
+  quantity      Int
+  purchasePrice Float    // Price at the time of purchase (cost basis)
+  purchasedAt   DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WishlistItem {
+  id          String   @id @default(uuid())
+  cardId      String
+  card        Card     @relation(fields: [cardId], references: [id])
+  targetPrice Float    // Buy when price drops below this
+  notes       String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cardId, userId]) // One wishlist entry per card per user
+  
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String?         @unique
+  username      String?         @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  portfolioItems PortfolioItem[]
+  wishlistItems  WishlistItem[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+}
