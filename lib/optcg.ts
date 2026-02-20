@@ -10,9 +10,9 @@ export const searchCards = async (query: string): Promise<Card[]> => {
     const cards = await prisma.card.findMany({
         where: {
             OR: [
-                { name: { contains: query } },
-                { code: { contains: query } },
-                { set: { contains: query } },
+                { name: { contains: query, mode: 'insensitive' } },
+                { code: { contains: query, mode: 'insensitive' } },
+                { set: { contains: query, mode: 'insensitive' } },
             ]
         },
         include: {
