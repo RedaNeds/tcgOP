@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏴‍☠️ One Piece TCG Tracker
 
-## Getting Started
+A **Finary-inspired** portfolio tracker for the One Piece Trading Card Game. Track your collection's value, monitor price trends, and analyze your asset allocation — all in a sleek, dark-mode fintech UI.
 
-First, run the development server:
+## ✨ Features
+
+- **📊 Dashboard** — Real-time portfolio value, P&L tracking, price charts, and dynamic insights
+- **🃏 Card Catalog** — Browse all cards with filters (set, color, rarity, type) and pagination
+- **💼 Portfolio** — Manage your collection: add, edit, bulk delete, CSV export, and sort by any metric
+- **📈 Performance** — Track your portfolio's performance over time with detailed analytics
+- **🎯 Wishlist** — Watch cards and set target prices, convert to portfolio when ready
+- **🧩 Allocation** — Visualize diversification by set, color, type, and rarity with interactive charts
+- **⚙️ Settings** — Theme toggle (dark/light), multi-currency display (USD/EUR/JPY), profile management
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | Next.js 16 (App Router) |
+| **Language** | TypeScript |
+| **Database** | PostgreSQL (Neon) |
+| **ORM** | Prisma |
+| **Auth** | NextAuth.js (Credentials) |
+| **Styling** | Vanilla CSS (custom dark theme) |
+| **Charts** | Recharts |
+| **Animations** | Framer Motion |
+| **State** | Zustand (local settings) |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- A PostgreSQL database ([Neon](https://neon.tech) free tier works great)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/RedaNeds/tcgOP.git
+cd tcgOP
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your DATABASE_URL and NEXTAUTH_SECRET
+```
+
+### Environment Variables
+
+Create a `.env` file at the root:
+
+```env
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+NEXTAUTH_SECRET="your-secret-key"
+```
+
+### Database Setup
+
+```bash
+# Push the schema to your database
+npx prisma db push
+
+# Seed with card data
+npm run seed
+```
+
+### Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) — create an account and start tracking your collection!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/
+│   ├── (auth)/          # Login & Register pages
+│   ├── (dashboard)/     # All authenticated pages
+│   │   ├── cards/       # Card catalog & detail
+│   │   ├── portfolio/   # Portfolio management
+│   │   ├── wishlist/    # Wishlist tracking
+│   │   ├── allocation/  # Asset allocation charts
+│   │   ├── performance/ # Performance analytics
+│   │   └── settings/    # User settings
+│   └── api/             # API routes (auth, cron)
+├── components/          # Reusable UI components
+├── lib/
+│   ├── actions/         # Server Actions (data layer)
+│   └── hooks/           # Custom React hooks
+├── prisma/              # Schema & migrations
+└── scripts/             # Seed & utility scripts
+```
 
-## Learn More
+## 🗺️ Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+- [x] Core portfolio tracking
+- [x] Card catalog with filters & pagination
+- [x] Wishlist with price targets
+- [x] Asset allocation analytics
+- [x] Multi-currency support
+- [x] PostgreSQL migration (Vercel-ready)
+- [ ] Progressive Web App (PWA)
+- [ ] Price alert notifications
+- [ ] Multi-language support (EN/FR)
+- [ ] E2E test suite
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+MIT
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ☕ and 🏴‍☠️ by [RedaNeds](https://github.com/RedaNeds)
