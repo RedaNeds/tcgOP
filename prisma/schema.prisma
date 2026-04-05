@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  id             String          @id
+  code           String
+  name           String
+  set            String
+  rarity         String
+  image          String?
+  prices         String?
+  color          String?
+  type           String?
+  power          Int?
+  attribute      String?
+  currentPrice   Float           @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  portfolioItems PortfolioItem[]
+  priceHistory   PriceHistory[]
+  wishlistItems  WishlistItem[]
+}
+
+model PriceHistory {
+  id     Int      @id @default(autoincrement())
+  cardId String
+  price  Float
+  date   DateTime @default(now())
+  card   Card     @relation(fields: [cardId], references: [id])
+
+  @@index([cardId])
+  @@index([date])
+  @@index([cardId, date])
+}
+
+model PortfolioItem {
+  id             String   @id @default(uuid())
+  cardId         String
+  quantity       Int
+  purchasePrice  Float
+  purchasedAt    DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         String?
+  condition      String   @default("Raw")
+  isGraded       Boolean  @default(false)
+  language       String   @default("EN")
+  certId         String?
+  gradingCompany String?
+  isForTrade     Boolean  @default(false)
+  card           Card     @relation(fields: [cardId], references: [id])
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  binders        Binder[] @relation("BinderToPortfolioItem")
+
+  @@index([userId])
+  @@index([cardId])
+}
+
+model WishlistItem {
+  id          String   @id @default(uuid())
+  cardId      String
+  targetPrice Float
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String?
+  card        Card     @relation(fields: [cardId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([cardId, userId])
+  @@index([userId])
+}
+
+model User {
+  id              String          @id @default(cuid())
+  name            String?
+  email           String?         @unique
+  username        String?         @unique
+  password        String?
+  emailVerified   DateTime?
+  image           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  alertMilestones Boolean         @default(true)
+  alertPriceDrop  Boolean         @default(true)
+  alertPriceSpike Boolean         @default(true)
+  isPublic        Boolean         @default(false)
+  accounts        Account[]
+  binders         Binder[]
+  notifications   Notification[]
+  portfolioItems  PortfolioItem[]
+  sessions        Session[]
+  pushSubscriptions PushSubscription[]
+  wishlistItems   WishlistItem[]
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  cardId    String?
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Binder {
+  id          String          @id @default(uuid())
+  name        String
+  description String?
+  color       String?
+  userId      String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       PortfolioItem[] @relation("BinderToPortfolioItem")
+
+  @@index([userId])
+}
