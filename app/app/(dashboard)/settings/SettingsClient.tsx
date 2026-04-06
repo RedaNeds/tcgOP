@@ -12,7 +12,7 @@ import { updateAlertPreferences, updatePublicVisibility } from '@/lib/actions/us
 import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { PushNotificationToggle } from '@/components/dashboard/settings/PushNotificationToggle';
-import { Smartphone, Info } from 'lucide-react';
+import { Smartphone } from 'lucide-react';
 
 interface SettingsClientProps {
     user: {

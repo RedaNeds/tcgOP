@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Bell, BellOff, Loader2, Info } from 'lucide-react';
+import { Bell, Loader2, Info } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { savePushSubscription, deletePushSubscription } from '@/lib/actions/user-settings';
 
@@ -137,7 +137,7 @@ export function PushNotificationToggle() {
                 <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg flex gap-3 text-xs text-blue-400 animate-in fade-in slide-in-from-top-1">
                     <Bell size={14} className="shrink-0 mt-0.5" />
                     <p>
-                        You're all set! You'll receive push notifications for price spikes, drops, and wishlist targets.
+                        You&apos;re all set! You&apos;ll receive push notifications for price spikes, drops, and wishlist targets.
                     </p>
                 </div>
             )}
