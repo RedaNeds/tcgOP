@@ -238,7 +238,7 @@ export function CardsCatalogClient({
                     return (
                         <Link
                             key={card.id}
-                            href={`/cards/${card.id}`}
+                            href={`/app/cards/${card.id}`}
                             className="group bg-card rounded-xl border border-border/50 overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all duration-200 relative"
                         >
                             <div className="relative aspect-[5/7] w-full bg-muted overflow-hidden">

@@ -4,7 +4,7 @@
 import { CardWithHistory } from '@/lib/actions/cards';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Plus, Package, Sparkles, Swords, Palette, Layers, Heart, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Plus, Package, Sparkles, Swords, Palette, Layers, Heart, TrendingUp, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
@@ -59,14 +59,12 @@ export function CardDetailClient({ card, holdings }: CardDetailClientProps) {
     return (
         <main className="flex-1 md:ml-64 p-8 overflow-y-auto pb-20 md:pb-8">
             <nav className="mb-4 text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                <Link href="/cards" className="hover:text-foreground transition-colors">Cards</Link>
-                <span>/</span>
-                <Link href={`/sets/${encodeURIComponent(card.set)}`} className="hover:text-foreground transition-colors">{card.set}</Link>
-                <span>/</span>
-                <span className="text-foreground">{card.code}</span>
+                <Link href="/app/cards" className="hover:text-foreground transition-colors">Cards</Link>
+                <ChevronRight size={14} className="text-muted-foreground/30" strokeWidth={3} />
+                <span className="text-foreground">{card.name} ({card.code})</span>
             </nav>
-            <div className="mb-6">
-                <Link href="/cards" className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors font-bold uppercase tracking-tighter">
+            <div className="mb-8">
+                <Link href="/app/cards" className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors font-bold uppercase tracking-tighter">
                     <ArrowLeft size={16} />
                     Back to Catalog
                 </Link>
@@ -136,7 +134,7 @@ export function CardDetailClient({ card, holdings }: CardDetailClientProps) {
                         <div>
                             <h1 className="text-5xl md:text-6xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/50">{card.name}</h1>
                             <p className="text-xl text-muted-foreground font-medium mt-2">
-                                <Link href={`/sets/${encodeURIComponent(card.set)}`} className="hover:text-foreground underline underline-offset-4 transition-colors">
+                                <Link href={`/app/sets/${encodeURIComponent(card.set)}`} className="hover:text-foreground underline underline-offset-4 transition-colors">
                                     {card.set}
                                 </Link>
                             </p>

@@ -49,7 +49,7 @@ export async function updateUserProfile(data: { name?: string; username?: string
             data: updateData
         });
 
-        revalidatePath('/settings');
+        revalidatePath('/app/settings');
         return { success: true };
 
     } catch (error) {

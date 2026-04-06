@@ -260,11 +260,6 @@ export function DashboardClient({ initialItems, historyData, userName, setsProgr
                 itemVariants={itemVariants}
             />
 
-            {/* NEW: Treasured Gems Showcase */}
-            <motion.div variants={itemVariants}>
-                <TreasuredGems items={items} />
-            </motion.div>
-
             <DashboardPerformanceSection
                 historyData={historyData}
                 allocationData={allocationData}
@@ -274,6 +269,11 @@ export function DashboardClient({ initialItems, historyData, userName, setsProgr
             {/* COLLECTION MASTERY SECTION */}
             <motion.div variants={itemVariants}>
                 <CollectionMastery setsProgress={setsProgress} />
+            </motion.div>
+
+            {/* Treasured Gems Showcase */}
+            <motion.div variants={itemVariants}>
+                <TreasuredGems items={items} />
             </motion.div>
 
             {/* YOUR ARSENAL (Assets Grid) */}
@@ -291,7 +291,7 @@ export function DashboardClient({ initialItems, historyData, userName, setsProgr
                     
                     <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
                         <Link 
-                            href="/portfolio"
+                            href="/app/portfolio"
                             className="bg-secondary/40 hover:bg-secondary text-xs font-black px-4 py-2 rounded-xl transition-colors border border-white/5 flex items-center gap-2"
                         >
                             <LayoutGrid size={14} /> VIEW ALL

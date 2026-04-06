@@ -16,21 +16,21 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 const NAV_ITEMS = [
-    { label: 'Dashboard', icon: LayoutDashboard, href: '/' },
-    { label: 'Cards', icon: Library, href: '/cards' },
-    { label: 'Wishlist', icon: Heart, href: '/wishlist' },
-    { label: 'Portfolio', icon: Wallet, href: '/portfolio' },
-    { label: 'Performance', icon: TrendingUp, href: '/performance' },
-    { label: 'Allocation', icon: PieChart, href: '/allocation' },
-    { label: 'Settings', icon: Settings, href: '/settings' },
+    { label: 'Dashboard', icon: LayoutDashboard, href: '/app' },
+    { label: 'Cards', icon: Library, href: '/app/cards' },
+    { label: 'Wishlist', icon: Heart, href: '/app/wishlist' },
+    { label: 'Portfolio', icon: Wallet, href: '/app/portfolio' },
+    { label: 'Performance', icon: TrendingUp, href: '/app/performance' },
+    { label: 'Allocation', icon: PieChart, href: '/app/allocation' },
+    { label: 'Settings', icon: Settings, href: '/app/settings' },
 ];
 
 const MOBILE_NAV_ITEMS = [
-    { label: 'Home', icon: LayoutDashboard, href: '/' },
-    { label: 'Cards', icon: Library, href: '/cards' },
-    { label: 'Portfolio', icon: Wallet, href: '/portfolio' },
-    { label: 'Wishlist', icon: Heart, href: '/wishlist' },
-    { label: 'Settings', icon: Settings, href: '/settings' },
+    { label: 'Home', icon: LayoutDashboard, href: '/app' },
+    { label: 'Cards', icon: Library, href: '/app/cards' },
+    { label: 'Portfolio', icon: Wallet, href: '/app/portfolio' },
+    { label: 'Wishlist', icon: Heart, href: '/app/wishlist' },
+    { label: 'Settings', icon: Settings, href: '/app/settings' },
 ];
 
 export function SidebarNav({ mobile }: { mobile?: boolean }) {

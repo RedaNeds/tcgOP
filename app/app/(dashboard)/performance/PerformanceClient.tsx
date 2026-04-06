@@ -207,7 +207,7 @@ export function PerformanceClient({ initialData }: PerformanceClientProps) {
                                             )}
                                         </div>
                                         <div>
-                                            <Link href={`/cards/${item.id}`} className="font-medium text-sm text-foreground hover:text-primary transition-colors">
+                                            <Link href={`/app/cards/${item.id}`} className="font-medium text-sm text-foreground hover:text-primary transition-colors">
                                                 {item.name}
                                             </Link>
                                             <div className="flex items-center gap-2 mt-0.5">

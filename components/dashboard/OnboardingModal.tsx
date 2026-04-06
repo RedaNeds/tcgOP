@@ -72,7 +72,7 @@ export function OnboardingModal({ isFirstTime }: OnboardingModalProps) {
 
     const handleGoToCatalog = () => {
         handleClose();
-        router.push('/cards');
+        router.push('/app/cards');
     };
 
     return (

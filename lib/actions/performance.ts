@@ -248,7 +248,7 @@ async function generateInsights(
             title: 'Buying Opportunities',
             description: `${deals.length} cards in your wishlist have hit their target price.`,
             actionLabel: 'View Wishlist',
-            actionUrl: '/wishlist'
+            actionUrl: '/app/wishlist'
         });
     }
 

@@ -135,7 +135,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                                 title: 'Target Price Reached!',
                                 message: `${card.name} (${card.code}) has dropped to $${price.toFixed(2)}, reaching your target of $${item.targetPrice.toFixed(2)}!`,
                                 cardId: card.id,
-                                link: '/wishlist',
+                                link: '/app/wishlist',
                             }
                         });
 
@@ -143,7 +143,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                         await sendPushNotification(item.userId!, {
                             title: 'Target Price Reached!',
                             message: `${card.name} (${card.code}) has dropped to $${price.toFixed(2)}, reaching your target of $${item.targetPrice.toFixed(2)}!`,
-                            link: '/wishlist',
+                            link: '/app/wishlist',
                             cardId: card.id,
                         });
                     }
@@ -176,7 +176,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                                 title: 'Price Spike Detected 🚀',
                                 message: `${card.name} (${card.code}) is up ${(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
                                 cardId: card.id,
-                                link: `/cards/${card.id}`,
+                                link: `/app/cards/${card.id}`,
                             }
                         });
 
@@ -184,7 +184,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                         await sendPushNotification(holder.userId, {
                             title: 'Price Spike Detected 🚀',
                             message: `${card.name} (${card.code}) is up ${(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
-                            link: `/cards/${card.id}`,
+                            link: `/app/cards/${card.id}`,
                             cardId: card.id,
                         });
                     } else if (isDrop && user?.alertPriceDrop) {
@@ -198,7 +198,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                                 title: 'Price Drop Detected 📉',
                                 message: `${card.name} (${card.code}) is down ${Math.abs(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
                                 cardId: card.id,
-                                link: `/cards/${card.id}`,
+                                link: `/app/cards/${card.id}`,
                             }
                         });
 
@@ -206,7 +206,7 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                         await sendPushNotification(holder.userId, {
                             title: 'Price Drop Detected 📉',
                             message: `${card.name} (${card.code}) is down ${Math.abs(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
-                            link: `/cards/${card.id}`,
+                            link: `/app/cards/${card.id}`,
                             cardId: card.id,
                         });
                     }

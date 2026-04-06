@@ -54,7 +54,7 @@ export async function updateAlertPreferences(prefs: Partial<AlertPreferences>) {
             }
         });
 
-        revalidatePath('/settings');
+        revalidatePath('/app/settings');
         return { success: true };
     } catch (error) {
         console.error('Failed to update alert preferences:', error);
@@ -74,7 +74,7 @@ export async function updatePublicVisibility(isPublic: boolean) {
             data: { isPublic },
         });
 
-        revalidatePath('/settings');
+        revalidatePath('/app/settings');
         return { success: true };
     } catch (error) {
         console.error('Failed to update public visibility:', error);

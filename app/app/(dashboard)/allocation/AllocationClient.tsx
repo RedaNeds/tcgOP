@@ -37,7 +37,7 @@ export function AllocationClient({ data }: AllocationClientProps) {
                     icon={<Layers className="text-muted-foreground" size={24} />}
                     action={
                         <Link
-                            href="/portfolio"
+                            href="/app/portfolio"
                             className="rounded-lg border border-border bg-secondary px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary/80"
                         >
                             Go to Portfolio
@@ -175,7 +175,7 @@ export function AllocationClient({ data }: AllocationClientProps) {
                     <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2">
                         {setCompletion && setCompletion.length > 0 ? (
                             setCompletion.map((set) => (
-                                <Link href={`/sets/${encodeURIComponent(set.name)}`} key={set.name} className="block group">
+                                <Link href={`/app/sets/${encodeURIComponent(set.name)}`} key={set.name} className="block group">
                                     <div className="flex justify-between text-sm mb-2 group-hover:text-primary transition-colors">
                                         <span className="font-medium">{set.name}</span>
                                         <span className="text-muted-foreground text-xs font-mono group-hover:text-primary/80 transition-colors">

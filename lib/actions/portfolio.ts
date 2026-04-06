@@ -348,7 +348,7 @@ export async function resetPortfolio() {
             where: { userId: session.user.id }
         });
 
-        revalidatePath('/portfolio');
+        revalidatePath('/app/portfolio');
         revalidatePath('/');
         return { success: true };
     } catch (error) {

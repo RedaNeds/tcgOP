@@ -29,7 +29,7 @@ export default async function SetProgressPage({
                     {data.error}
                 </p>
                 <Link
-                    href="/allocation"
+                    href="/app/allocation"
                     className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-xl font-medium transition-colors"
                 >
                     Return to Allocation

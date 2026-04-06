@@ -214,17 +214,16 @@ To keep the application fast and SEO-friendly, the dashboard follows a specific 
 
 **Guideline**: If a component exceeds **300 lines**, extract its state and logic into a custom hook (e.g., `usePortfolioFilters` reduced `PortfolioClient.tsx` from 1270 to ~400 lines).
 
-### 3.6 Middleware & Subdomain Routing
+### 3.6 Middleware & Routing
 
 The middleware is defined in `proxy.ts` (Next.js 16 convention):
 
 ```
-NextAuth(authConfig).auth → Subdomain Rewrite → Route Protection
+NextAuth(authConfig).auth → Route Protection
 ```
 
-- **Subdomain Detection**: Requests with `app.*` hostname prefix are rewritten to `/app/*` path
-- **Auth Guard**: NextAuth authorized callback protects `/app/*` routes
-- **Matcher Pattern**: Excludes static files, images, `manifest.json`, and `sw.js`
+- **Auth Guard**: NextAuth authorized callback protects all `/app/*` routes.
+- **Matcher Pattern**: Excludes static files, images, `manifest.json`, and `sw.js`.
 
 ```
 matcher: ['/((?!_next/static|_next/image|.*\\.(?:png|ico|svg|webp|jpg|jpeg)$|manifest\\.json|sw\\.js).*)']
@@ -268,8 +267,8 @@ The dashboard is the central hub providing:
 - **Multi-Filter System** — Filter by set, color, rarity, and card type
 - **Search** — Real-time search by name, code, or set
 - **Premium Card Details** — An immersive, full-screen card view featuring:
-  - **Breadcrumb Navigation** — `Cards / Collection / Card Code` with clickable collection links
-  - **Collection Link** — Clickable collection name redirects to collection page
+  - **Breadcrumb Navigation** — `Cards > Card Name (Card Code)` with immediate navigation back to the catalog.
+  - **Set Link** — Clickable set name redirects to the specific set completion page.
   - **My Holdings Integration**: Direct visibility of your owned quantity, average cost basis, and unrealized P&L for that specific card.
   - **Marketplace Links**: Deep links to TCGPlayer, Cardmarket, and eBay sold listings.
   - **Price History**: 90-day interactive price chart.
@@ -1095,11 +1094,12 @@ All fields optional:
 |---|---|
 | `dynamic` | `'force-dynamic'` |
 | `maxDuration` | `300` (5 minutes, Vercel function limit) |
+| **Schedule** | `*/5 * * * *` (Every 5 minutes via `vercel.json`) |
 
 **Auth**: Bearer token — `Authorization: Bearer {CRON_SECRET}`
 
-- In **production**: `CRON_SECRET` is mandatory; endpoint returns 500 if not set
-- In **non-production**: Auth enforced only when `CRON_SECRET` is configured
+- In **production**: `CRON_SECRET` is mandatory; endpoint returns 500 if not set. Automated via Vercel Cron Jobs.
+- In **non-production**: Auth enforced only when `CRON_SECRET` is configured.
 
 **Response**:
 ```json
@@ -1271,8 +1271,6 @@ The `authorized()` callback in `auth.config.ts`:
 | `/app/*` | If logged in → allow; otherwise → redirect to `/login` |
 | `/api/*` | Always pass through (handle own auth) |
 | Public routes | Always allow |
-
-**Subdomain routing** (`proxy.ts`): Requests with `app.*` hostname are rewritten to `/app/*` path prefix.
 
 ### 16.4 Authorization
 

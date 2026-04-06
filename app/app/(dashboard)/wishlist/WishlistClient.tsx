@@ -407,7 +407,7 @@ function WishlistCard({
                         <Target size={14} className="rotate-45" />
                     </button>
                     <Link
-                        href={`/cards/${item.card.id}`}
+                        href={`/app/cards/${item.card.id}`}
                         onClick={(e) => e.stopPropagation()}
                         className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-secondary/50 transition-colors"
                         title="View Card"

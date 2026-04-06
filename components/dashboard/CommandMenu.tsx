@@ -52,7 +52,7 @@ export function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
     }, [query]);
 
     const handleSelect = useCallback((cardId: string) => {
-        router.push(`/cards/${cardId}`);
+        router.push(`/app/cards/${cardId}`);
         onClose();
     }, [router, onClose]);
 
@@ -182,25 +182,25 @@ export function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
                                                     icon={<TrendingUp size={16} />} 
                                                     label="Portfolio" 
                                                     shortcut="G P"
-                                                    onClick={() => { router.push('/portfolio'); onClose(); }}
+                                                    onClick={() => { router.push('/app/portfolio'); onClose(); }}
                                                 />
                                                 <QuickNavButton 
                                                     icon={<Zap size={16} />} 
                                                     label="Catalog" 
                                                     shortcut="G C"
-                                                    onClick={() => { router.push('/cards'); onClose(); }}
+                                                    onClick={() => { router.push('/app/cards'); onClose(); }}
                                                 />
                                                 <QuickNavButton 
                                                     icon={<CreditCard size={16} />} 
                                                     label="Wishlist" 
                                                     shortcut="G W"
-                                                    onClick={() => { router.push('/wishlist'); onClose(); }}
+                                                    onClick={() => { router.push('/app/wishlist'); onClose(); }}
                                                 />
                                                 <QuickNavButton 
                                                     icon={<Folder size={16} />} 
                                                     label="Allocation" 
                                                     shortcut="G B"
-                                                    onClick={() => { router.push('/allocation'); onClose(); }}
+                                                    onClick={() => { router.push('/app/allocation'); onClose(); }}
                                                 />
                                             </div>
                                         </div>

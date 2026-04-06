@@ -14,7 +14,7 @@ export default function CardNotFound() {
                     This card doesn&apos;t exist in our database.
                 </p>
                 <Link
-                    href="/cards"
+                    href="/app/cards"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium text-sm hover:bg-primary/90 transition-colors"
                 >
                     Browse Card Catalog
