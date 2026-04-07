@@ -76,7 +76,7 @@ export async function login(prevState: any, formData: FormData) {
         await signIn('credentials', {
             username: parsed.data.username,
             password: parsed.data.password,
-            redirectTo: '/',
+            redirectTo: '/app',
         });
     } catch (error) {
         if (error instanceof AuthError) {
