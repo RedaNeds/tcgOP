@@ -5,6 +5,9 @@ const withSerwist = withSerwistInit({
   swSrc: "app/sw.ts",
   swDest: "public/sw.js",
   disable: process.env.NODE_ENV === "development",
+  fallbacks: {
+    document: "/~offline",
+  },
 });
 
 const nextConfig: NextConfig = {

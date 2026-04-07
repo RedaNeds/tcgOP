@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Sans_JP, Noto_Serif_JP } from "next/font/google
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ToastProvider } from "@/components/ui/toast";
+import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,7 +72,7 @@ export default function RootLayout({
         >
           <ToastProvider>
             {children}
-
+            <PWAInstallPrompt />
           </ToastProvider>
         </ThemeProvider>
       </body>

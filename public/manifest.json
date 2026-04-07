@@ -1,21 +1,42 @@
 {
+    "id": "/",
     "name": "OPTCG Tracker",
     "short_name": "OPTCG Tracker",
-    "description": "One Piece TCG Portfolio Tracker",
-    "start_url": "/",
+    "description": "One Piece TCG Portfolio Tracker — manage your collection and track card prices.",
+    "start_url": "/app",
+    "scope": "/",
     "display": "standalone",
+    "orientation": "portrait-primary",
     "background_color": "#09090b",
     "theme_color": "#09090b",
+    "categories": ["finance", "games", "utilities"],
     "icons": [
         {
             "src": "/icons/icon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/icons/icon-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "My Portfolio",
+            "short_name": "Portfolio",
+            "description": "View your card portfolio",
+            "url": "/app",
+            "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
         }
     ]
 }
