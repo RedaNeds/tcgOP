@@ -259,7 +259,7 @@ The dashboard is the central hub providing:
 - **Dynamic Insights** — AI-style contextual recommendations (concentration risk, star performers, buying opportunities)
 - **Notification Center** — Real-time alerts for price movements and targets
 - **Onboarding Modal** — First-time user walkthrough
-- **CSV Export** — One-click portfolio export from dashboard
+- **CSV Export & Import** — One-click portfolio export and mass import logic with CSV.
 
 ### 4.2 Card Catalog & Immersive Details
 
@@ -288,7 +288,7 @@ The dashboard is the central hub providing:
 - **Bulk Delete** — Multi-select and batch remove items
 - **Trade Flagging** — Mark cards as "For Trade" (checkbox in edit modal)
 - **Sorting** — Sort by any column (name, value, P&L, date added, etc.)
-- **CSV Export** — Full portfolio export with P&L calculations and summary row
+- **CSV Export / Import** — Full portfolio export with P&L calculations, and a complete Bulk Import feature supporting drag-and-drop CSV validation for fast collection addition.
 - **Weighted Average Cost Basis** — Automatically calculates average price when adding same card
 - **Market Timing Badge** — Each card gets a "Diamond Hand" / "Fair Value" / "FOMO" badge based on purchase timing vs. historical price
 - **Binder Tabs** — Quick filter by binder or "For Trade"

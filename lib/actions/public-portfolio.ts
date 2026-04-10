@@ -59,35 +59,35 @@ export async function getPublicPortfolio(username: string) {
         }
 
         // Format items
-        const items: PublicPortfolioItem[] = user.portfolioItems.map((item: any) => ({
+        const items: PublicPortfolioItem[] = user.portfolioItems.map((item) => ({
             id: item.id,
             cardId: item.card.id,
             code: item.card.code,
             name: item.card.name,
             set: item.card.set,
             rarity: item.card.rarity,
-            image: item.card.image || '',
+            image: item.card.image ?? '',
             quantity: item.quantity,
             purchasePrice: item.purchasePrice,
             currentPrice: item.card.currentPrice,
-            color: item.card.color || '',
-            type: item.card.type || '',
+            color: item.card.color ?? '',
+            type: item.card.type ?? '',
             condition: item.condition,
             language: item.language,
             isGraded: item.isGraded,
             certId: item.certId,
             gradingCompany: item.gradingCompany,
-            isForTrade: (item as any).isForTrade || false,
+            isForTrade: item.isForTrade ?? false,
         }));
 
-        const wishlist = user.wishlistItems.map((item: any) => ({
+        const wishlist = user.wishlistItems.map((item) => ({
             id: item.id,
             cardId: item.card.id,
             code: item.card.code,
             name: item.card.name,
             set: item.card.set,
             rarity: item.card.rarity,
-            image: item.card.image || '',
+            image: item.card.image ?? '',
             targetPrice: item.targetPrice,
             currentPrice: item.card.currentPrice,
         }));

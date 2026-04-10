@@ -124,13 +124,14 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                 });
 
                 for (const item of wishlistItems) {
+                    if (!item.userId) continue;
                     if (oldPrice > item.targetPrice && price <= item.targetPrice && item.user?.alertMilestones) {
-                        const alreadyNotified = await hasRecentNotification(item.userId!, 'WISHLIST_TARGET');
+                        const alreadyNotified = await hasRecentNotification(item.userId, 'WISHLIST_TARGET');
                         if (alreadyNotified) continue;
 
                         await tx.notification.create({
                             data: {
-                                userId: item.userId!,
+                                userId: item.userId,
                                 type: 'WISHLIST_TARGET',
                                 title: 'Target Price Reached!',
                                 message: `${card.name} (${card.code}) has dropped to $${price.toFixed(2)}, reaching your target of $${item.targetPrice.toFixed(2)}!`,
@@ -139,13 +140,13 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                             }
                         });
 
-                        // Trigger Push Notification
-                        await sendPushNotification(item.userId!, {
+                        // Trigger Push Notification (outside transaction to avoid blocking)
+                        sendPushNotification(item.userId, {
                             title: 'Target Price Reached!',
                             message: `${card.name} (${card.code}) has dropped to $${price.toFixed(2)}, reaching your target of $${item.targetPrice.toFixed(2)}!`,
                             link: '/app/wishlist',
                             cardId: card.id,
-                        });
+                        }).catch(err => console.error('Push notification failed:', err));
                     }
                 }
             }
@@ -157,13 +158,18 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                     distinct: ['userId']
                 });
 
+                // Batch-fetch user preferences to avoid N+1 queries
+                const holderUserIds = portfolioHolders.map(h => h.userId).filter((id): id is string => id !== null);
+                const userPrefs = await tx.user.findMany({
+                    where: { id: { in: holderUserIds } },
+                    select: { id: true, alertPriceSpike: true, alertPriceDrop: true }
+                });
+                const userPrefsMap = new Map(userPrefs.map(u => [u.id, u]));
+
                 for (const holder of portfolioHolders) {
                     if (!holder.userId) continue;
 
-                    const user = await tx.user.findUnique({
-                        where: { id: holder.userId },
-                        select: { alertPriceSpike: true, alertPriceDrop: true }
-                    });
+                    const user = userPrefsMap.get(holder.userId);
 
                     if (isSpike && user?.alertPriceSpike) {
                         const alreadyNotified = await hasRecentNotification(holder.userId, 'PRICE_SPIKE');
@@ -180,13 +186,13 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                             }
                         });
 
-                        // Trigger Push Notification
-                        await sendPushNotification(holder.userId, {
+                        // Trigger Push Notification (outside transaction to avoid blocking)
+                        sendPushNotification(holder.userId, {
                             title: 'Price Spike Detected 🚀',
                             message: `${card.name} (${card.code}) is up ${(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
                             link: `/app/cards/${card.id}`,
                             cardId: card.id,
-                        });
+                        }).catch(err => console.error('Push notification failed:', err));
                     } else if (isDrop && user?.alertPriceDrop) {
                         const alreadyNotified = await hasRecentNotification(holder.userId, 'PRICE_DROP');
                         if (alreadyNotified) continue;
@@ -202,13 +208,13 @@ async function updateCardPrice(card: { id: string; code: string; name: string; c
                             }
                         });
 
-                        // Trigger Push Notification
-                        await sendPushNotification(holder.userId, {
+                        // Trigger Push Notification (outside transaction to avoid blocking)
+                        sendPushNotification(holder.userId, {
                             title: 'Price Drop Detected 📉',
                             message: `${card.name} (${card.code}) is down ${Math.abs(percentChange * 100).toFixed(1)}% to $${price.toFixed(2)}`,
                             link: `/app/cards/${card.id}`,
                             cardId: card.id,
-                        });
+                        }).catch(err => console.error('Push notification failed:', err));
                     }
                 }
             }

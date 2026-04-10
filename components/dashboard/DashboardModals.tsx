@@ -11,10 +11,13 @@ const CardDetailsModal = dynamic(() => import('@/components/cards/CardDetailsMod
 const OnboardingModal = dynamic(() => import('@/components/dashboard/OnboardingModal').then((mod) => mod.OnboardingModal), { ssr: false });
 const ConfirmModal = dynamic(() => import('@/components/ui/ConfirmModal').then((mod) => mod.ConfirmModal), { ssr: false });
 const CardSearch = dynamic(() => import('@/components/cards/CardSearch').then((mod) => mod.CardSearch), { ssr: false });
+const ImportPortfolioModal = dynamic(() => import('@/components/cards/ImportPortfolioModal').then((mod) => mod.ImportPortfolioModal), { ssr: false });
 
 interface DashboardModalsProps {
     isAddModalOpen: boolean;
     setIsAddModalOpen: Dispatch<SetStateAction<boolean>>;
+    isImportModalOpen: boolean;
+    setIsImportModalOpen: Dispatch<SetStateAction<boolean>>;
     selectedCard: Card | null;
     setSelectedCard: Dispatch<SetStateAction<Card | null>>;
     confirmRemoveId: string | null;
@@ -28,6 +31,8 @@ interface DashboardModalsProps {
 export function DashboardModals({
     isAddModalOpen,
     setIsAddModalOpen,
+    isImportModalOpen,
+    setIsImportModalOpen,
     selectedCard,
     setSelectedCard,
     confirmRemoveId,
@@ -71,6 +76,11 @@ export function DashboardModals({
                     }}
                 />
             )}
+
+            <ImportPortfolioModal 
+                isOpen={isImportModalOpen} 
+                onClose={() => setIsImportModalOpen(false)} 
+            />
 
             <ConfirmModal
                 isOpen={!!confirmRemoveId}

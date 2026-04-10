@@ -15,7 +15,7 @@ export async function updateUserProfile(data: { name?: string; username?: string
         const userId = session.user.id;
 
         // Prepare update payload
-        const updateData: any = {};
+        const updateData: Partial<{ name: string; username: string; password: string }> = {};
 
         if (data.name !== undefined) updateData.name = data.name;
 

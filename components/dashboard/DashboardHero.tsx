@@ -1,4 +1,4 @@
-import { AlertTriangle, Crown, Download, Plus, Target, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
+import { AlertTriangle, Crown, Download, Plus, Target, TrendingDown, TrendingUp, Wallet, Upload } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import type { Variants } from 'framer-motion';
@@ -22,6 +22,7 @@ interface DashboardHeroProps {
     insights: DashboardInsight[] | null;
     onExport: () => void;
     onAddAsset: () => void;
+    onImportModalOpen: () => void;
     itemVariants: Variants;
 }
 
@@ -35,6 +36,7 @@ export function DashboardHero({
     insights,
     onExport,
     onAddAsset,
+    onImportModalOpen,
     itemVariants,
 }: DashboardHeroProps) {
     return (
@@ -48,6 +50,12 @@ export function DashboardHero({
                 </div>
 
                 <div className="flex gap-3">
+                    <button
+                        onClick={onImportModalOpen}
+                        className="bg-secondary/60 text-foreground hover:bg-secondary h-14 px-6 py-2 rounded-2xl font-black flex items-center gap-3 text-sm border border-white/5 transition-all hover:scale-105 active:scale-95 group"
+                    >
+                        <Upload className="h-5 w-5" /> IMPORT CSV
+                    </button>
                     <button
                         onClick={onExport}
                         className="bg-secondary/60 text-foreground hover:bg-secondary h-14 px-6 py-2 rounded-2xl font-black flex items-center gap-3 text-sm border border-white/5 transition-all hover:scale-105 active:scale-95 group"

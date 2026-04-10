@@ -144,7 +144,7 @@ export async function getPerformanceData(): Promise<PerformanceData> {
             id: item.card.id,
             name: item.card.name,
             code: item.card.code,
-            image: item.card.image || '',
+            image: item.card.image ?? '',
             price: currentPrice,
             change,
             changePercent

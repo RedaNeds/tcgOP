@@ -82,7 +82,7 @@ export async function updatePublicVisibility(isPublic: boolean) {
     }
 }
 
-export async function savePushSubscription(subscription: any) {
+export async function savePushSubscription(subscription: { endpoint: string; keys: { p256dh: string; auth: string } }) {
     try {
         const session = await auth();
         if (!session?.user?.id) return { success: false, error: "Unauthorized" };

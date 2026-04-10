@@ -35,11 +35,14 @@ export async function GET(request: Request) {
             requestDurationMs: durationMs,
             triggeredAt: new Date().toISOString(),
         });
-    } catch {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('[cron/update-prices] unhandled error:', error);
         return NextResponse.json(
             {
                 success: false,
                 error: 'Internal Error',
+                details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
                 requestDurationMs: Date.now() - startedAt,
                 triggeredAt: new Date().toISOString(),
             },

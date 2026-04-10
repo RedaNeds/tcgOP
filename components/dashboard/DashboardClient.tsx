@@ -60,6 +60,7 @@ interface DashboardClientProps {
 
 export function DashboardClient({ initialItems, historyData, userName, setsProgress }: DashboardClientProps) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [detailedItemId, setDetailedItemId] = useState<string | null>(null);
     const { format: fmt } = useCurrency();
@@ -257,6 +258,7 @@ export function DashboardClient({ initialItems, historyData, userName, setsProgr
                 insights={insights}
                 onExport={handleExport}
                 onAddAsset={() => setIsAddModalOpen(true)}
+                onImportModalOpen={() => setIsImportModalOpen(true)}
                 itemVariants={itemVariants}
             />
 
@@ -348,6 +350,8 @@ export function DashboardClient({ initialItems, historyData, userName, setsProgr
             <DashboardModals
                 isAddModalOpen={isAddModalOpen}
                 setIsAddModalOpen={setIsAddModalOpen}
+                isImportModalOpen={isImportModalOpen}
+                setIsImportModalOpen={setIsImportModalOpen}
                 selectedCard={selectedCard}
                 setSelectedCard={setSelectedCard}
                 confirmRemoveId={confirmRemoveId}

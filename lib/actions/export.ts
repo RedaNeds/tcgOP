@@ -36,10 +36,12 @@ export async function exportPortfolioCSV(): Promise<string> {
     ];
 
     const escape = (val: string) => {
-        if (val.includes(',') || val.includes('"') || val.includes('\n')) {
-            return `"${val.replace(/"/g, '""')}"`;
+        // Prevent CSV formula injection (values starting with =, +, @, -)
+        const sanitized = /^[=+@-]/.test(val) ? `'${val}` : val;
+        if (sanitized.includes(',') || sanitized.includes('"') || sanitized.includes('\n')) {
+            return `"${sanitized.replace(/"/g, '""')}"`;
         }
-        return val;
+        return sanitized;
     };
 
     const rows = items.map(item => {

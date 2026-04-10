@@ -78,12 +78,6 @@ export async function getPortfolioHistory(range: HistoryRange = '1M'): Promise<P
             priceByCard.get(ph.cardId)!.push({ date: ph.date, price: ph.price });
         }
 
-        // Pre-index portfolio items by cardId
-        const itemsByCardId = new Map<string, typeof portfolioItems[0]>();
-        for (const item of portfolioItems) {
-            itemsByCardId.set(item.cardId, item);
-        }
-
         for (let i = actualDays; i >= 0; i--) {
             const currentDate = subDays(new Date(), i);
             const currentDayEnd = endOfDay(currentDate);
