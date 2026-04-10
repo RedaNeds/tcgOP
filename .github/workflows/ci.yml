@@ -72,8 +72,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Apply database migrations
-        run: npx prisma migrate deploy
+      - name: Apply database schema
+        run: npx prisma db push
 
       - name: Build app
         run: npm run build
