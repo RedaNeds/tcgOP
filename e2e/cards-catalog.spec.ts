@@ -109,7 +109,6 @@ test('card catalog pagination controls render when multiple pages exist', async 
   await expect(page.getByRole('heading', { name: /card catalog/i })).toBeVisible();
 
   // If there are multiple pages, test navigating to page 2 via URL
-  const pageUrl = page.url();
   await page.goto('/app/cards?page=2');
   // Page should still render the catalog heading (not crash)
   await expect(page.getByRole('heading', { name: /card catalog/i })).toBeVisible();

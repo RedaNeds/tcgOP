@@ -18,7 +18,6 @@ export function PWAInstallPrompt() {
 
     const stored = localStorage.getItem("pwa-install-dismissed");
     if (stored) {
-      setDismissed(true);
       return;
     }
 
