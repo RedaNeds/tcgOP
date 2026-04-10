@@ -10,7 +10,7 @@ test('authenticated user can edit a portfolio item via the edit modal', async ({
   const cardName = `E2E Edit Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     const user = await prisma.user.create({
       data: { username, name: username, password: hashedPassword },
     });

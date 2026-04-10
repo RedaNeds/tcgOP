@@ -12,7 +12,7 @@ test('authenticated user can bulk-delete selected portfolio items', async ({ pag
   const cardBName = `E2E Bulk Beta ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     const user = await prisma.user.create({
       data: { username, name: username, password: hashedPassword },
     });

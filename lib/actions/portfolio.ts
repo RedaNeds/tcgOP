@@ -104,7 +104,8 @@ export async function removeFromPortfolio(itemId: string) {
         await prisma.portfolioItem.delete({
             where: { id: itemId },
         });
-        revalidatePath('/', 'layout');
+        revalidatePath('/app/portfolio');
+        revalidatePath('/app');
         return { success: true };
     } catch (error) {
         console.error('Failed to remove from portfolio:', error);
@@ -129,7 +130,8 @@ export async function bulkRemoveFromPortfolio(itemIds: string[]) {
                 userId: session.user.id
             },
         });
-        revalidatePath('/');
+        revalidatePath('/app/portfolio');
+        revalidatePath('/app');
         return { success: true };
     } catch (error) {
         console.error('Failed to bulk remove from portfolio:', error);

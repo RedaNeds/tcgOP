@@ -13,7 +13,9 @@ import {
     LayoutGrid, 
     List,
     CheckSquare,
-    Square
+    Square,
+    Layers,
+    Plus
 } from 'lucide-react';
 import { 
     removeFromPortfolio, 
@@ -48,6 +50,7 @@ const AddCardModal = dynamic(() => import('@/components/cards/AddCardModal').the
 const EditPortfolioItemModal = dynamic(() => import('@/components/cards/EditPortfolioItemModal').then((mod) => mod.EditPortfolioItemModal), { ssr: false });
 const BinderModal = dynamic(() => import('@/components/dashboard/BinderModal').then((mod) => mod.BinderModal), { ssr: false });
 const ConfirmModal = dynamic(() => import('@/components/ui/ConfirmModal').then((mod) => mod.ConfirmModal), { ssr: false });
+const EmptyState = dynamic(() => import('@/components/ui/EmptyState').then((mod) => mod.EmptyState), { ssr: false });
 
 interface PortfolioClientProps {
     initialItems: PortfolioItem[];
@@ -363,7 +366,22 @@ export function PortfolioClient({ initialItems, initialBinders = [] }: Portfolio
             </AnimatePresence>
 
             {/* Main Content Area */}
-            {viewMode === 'grid' ? (
+            {items.length === 0 ? (
+                <EmptyState
+                    title="Begin Your Voyage"
+                    description="The seas are empty, Captain. Track your One Piece TCG collection by adding tactical cards."
+                    icon={<div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center marine-glow"><Layers className="w-10 h-10 text-primary" /></div>}
+                    action={
+                        <button
+                            onClick={() => setIsAddModalOpen(true)}
+                            className="bg-primary text-primary-foreground hover:brightness-110 px-8 py-3 rounded-2xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-3"
+                        >
+                            <Plus size={20} /> ADD YOUR FIRST CARD
+                        </button>
+                    }
+                    className="py-16 glass rounded-[2.5rem] border-dashed border-2 border-white/5"
+                />
+            ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <AnimatePresence>
                         {paginatedItems.map(item => (

@@ -10,7 +10,7 @@ test('authenticated user can see and remove a seeded dashboard asset', async ({ 
   const cardName = `E2E Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
 
     const user = await prisma.user.create({
       data: {

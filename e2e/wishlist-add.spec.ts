@@ -11,7 +11,7 @@ test('authenticated user can add a card to the wishlist via card search', async 
   const cardName = `E2E WL Add Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     await prisma.user.create({
       data: { username, name: username, password: hashedPassword },
     });
@@ -65,7 +65,7 @@ test('authenticated user can edit the target price of a wishlist item', async ({
   const cardName = `E2E WL Edit Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     const user = await prisma.user.create({
       data: { username, name: username, password: hashedPassword },
     });

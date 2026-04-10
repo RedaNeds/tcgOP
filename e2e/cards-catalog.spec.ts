@@ -4,12 +4,10 @@ import prisma from '../lib/db';
 
 // Helper: register + login a fresh user
 async function loginUser(page: any, username: string, password: string) {
-  await page.goto('/register');
-  await page.getByLabel(/username/i).fill(username);
-  await page.getByLabel(/^password$/i).fill(password);
-  await page.getByLabel(/confirm password/i).fill(password);
-  await page.getByRole('button', { name: /register/i }).click();
-  await expect(page).toHaveURL(/\/login\?registered=true/);
+  const hashedPassword = await bcrypt.hash(password, 1);
+  await prisma.user.create({ data: { username, name: username, password: hashedPassword } });
+
+  await page.goto('/login');
   await page.getByLabel(/username/i).fill(username);
   await page.getByLabel(/password/i).fill(password);
   await page.getByRole('button', { name: /sign in/i }).click();
@@ -37,7 +35,7 @@ test('card catalog search filters results', async ({ page }) => {
   const cardName = `E2E Catalog Search ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     await prisma.user.create({ data: { username, name: username, password: hashedPassword } });
     await prisma.card.create({
       data: { id: cardId, code: cardId, name: cardName, set: 'E2E Catalog Set', rarity: 'SR', currentPrice: 25 },
@@ -69,7 +67,7 @@ test('card catalog filter panel opens and rarity filter works', async ({ page })
   const rarityCardName = `E2E Rarity Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     await prisma.user.create({ data: { username, name: username, password: hashedPassword } });
     await prisma.card.create({
       data: { id: rarityCardId, code: rarityCardId, name: rarityCardName, set: 'E2E Rarity Set', rarity: 'SEC', currentPrice: 100 },

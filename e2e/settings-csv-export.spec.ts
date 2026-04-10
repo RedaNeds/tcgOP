@@ -10,7 +10,7 @@ test('authenticated user can export portfolio as CSV from settings', async ({ pa
   const cardName = `E2E CSV Card ${seed}`;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 1);
     const user = await prisma.user.create({
       data: { username, name: username, password: hashedPassword },
     });
