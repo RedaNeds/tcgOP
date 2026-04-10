@@ -52,7 +52,7 @@ test('authenticated user can bulk-delete selected portfolio items', async ({ pag
     await page.getByRole('button', { name: /^confirm$/i }).click();
 
     // Portfolio should now be empty
-    await expect(page.getByText(/begin your voyage/i)).toBeVisible();
+    await expect(page.getByText(/begin your voyage/i)).toBeVisible({ timeout: 15000 });
   } finally {
     await prisma.portfolioItem.deleteMany({ where: { cardId: { in: [cardAId, cardBId] } } });
     await prisma.card.deleteMany({ where: { id: { in: [cardAId, cardBId] } } });

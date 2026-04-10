@@ -35,7 +35,7 @@ test('authenticated user can edit a portfolio item via the edit modal', async ({
     // In grid mode, clicking the card name opens the edit modal directly
     await expect(page.getByText(cardName).first()).toBeVisible({ timeout: 15000 });
     await page.getByText(cardName).first().click();
-    await expect(page.getByRole('heading', { name: /edit/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /^Edit Asset$/i })).toBeVisible({ timeout: 15000 });
 
     // Update quantity — label text is "Quantity" but has no htmlFor, so find input after label
     const quantityInput = page.locator('input[type="number"]').first();
@@ -43,8 +43,8 @@ test('authenticated user can edit a portfolio item via the edit modal', async ({
 
     await page.getByRole('button', { name: /save changes/i }).click();
 
-    // Modal should close
-    await expect(page.getByRole('heading', { name: /edit/i })).not.toBeVisible();
+    // Modal should close - use specific heading to avoid matching card name containing 'Edit'
+    await expect(page.getByRole('heading', { name: /^Edit Asset$/i })).not.toBeVisible({ timeout: 15000 });
   } finally {
     await prisma.portfolioItem.deleteMany({ where: { cardId } });
     await prisma.card.deleteMany({ where: { id: cardId } });

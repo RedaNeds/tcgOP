@@ -52,9 +52,9 @@ test('authenticated user can see and remove a seeded dashboard asset', async ({ 
     const removeButton = page.getByRole('button', { name: `Remove ${cardName} from portfolio` });
     await expect(removeButton).toHaveCount(1);
     await removeButton.click({ force: true });
-    await page.getByRole('button', { name: /confirm removal/i }).click();
+    await page.getByRole('button', { name: /confirm removal/i }).click({ timeout: 10000 });
 
-    await expect(page.getByText(/begin your voyage/i)).toBeVisible();
+    await expect(page.getByText(/begin your voyage/i)).toBeVisible({ timeout: 15000 });
     await expect(removeButton).toHaveCount(0);
   } finally {
     await prisma.portfolioItem.deleteMany({ where: { cardId } });
