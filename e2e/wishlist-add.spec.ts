@@ -89,6 +89,10 @@ test('authenticated user can edit the target price of a wishlist item', async ({
     await expect(page.getByRole('heading', { name: /^wishlist$/i }).first()).toBeVisible();
     await expect(page.getByText(cardId).first()).toBeVisible();
 
+    // Switch to table view where the edit button (title="Edit wishlist item") is visible
+    await page.locator('button').filter({ has: page.locator('svg') }).nth(1).click();
+    await page.waitForTimeout(500);
+
     // Click the edit button (pencil icon, title="Edit wishlist item")
     await page.locator('button[title="Edit wishlist item"]').first().click();
     await expect(page.getByRole('heading', { name: /edit wishlist item/i })).toBeVisible();

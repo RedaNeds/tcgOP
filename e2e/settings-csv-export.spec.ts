@@ -67,7 +67,7 @@ test('settings page renders all key sections', async ({ page }) => {
   await page.goto('/app/settings');
   await expect(page.getByRole('heading', { name: /settings/i })).toBeVisible();
   await expect(page.getByText(/appearance/i)).toBeVisible();
-  await expect(page.getByText(/profile/i)).toBeVisible();
+  await expect(page.getByRole('heading', { name: /profile/i })).toBeVisible();
   await expect(page.getByText(/data management/i)).toBeVisible();
   await expect(page.getByRole('button', { name: /save profile changes/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /export csv/i })).toBeVisible();

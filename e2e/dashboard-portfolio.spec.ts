@@ -47,7 +47,7 @@ test('authenticated user can see and remove a seeded dashboard asset', async ({ 
 
     await expect(page).toHaveURL(/\/(app)?$/);
     await page.goto('/app');
-    await expect(page.getByText(/your arsenal/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /your arsenal/i }).first()).toBeVisible();
 
     const removeButton = page.getByRole('button', { name: `Remove ${cardName} from portfolio` });
     await expect(removeButton).toHaveCount(1);

@@ -26,7 +26,7 @@ test('card catalog page renders search and filter controls', async ({ page }) =>
 
   await expect(page.getByRole('heading', { name: /card catalog/i })).toBeVisible();
   await expect(page.getByPlaceholder(/search by name or code/i)).toBeVisible();
-  await expect(page.getByRole('button', { name: /filters/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Filters', exact: true })).toBeVisible();
 });
 
 test('card catalog search filters results', async ({ page }) => {
@@ -86,7 +86,7 @@ test('card catalog filter panel opens and rarity filter works', async ({ page })
     await expect(page.getByRole('heading', { name: /card catalog/i })).toBeVisible();
 
     // The Filters button should indicate an active filter
-    await expect(page.getByRole('button', { name: /filters/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Filters', exact: true })).toBeVisible();
 
     // Our seeded SEC card should appear
     await expect(page.getByText(rarityCardName)).toBeVisible({ timeout: 10000 });
