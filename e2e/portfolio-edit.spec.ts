@@ -30,13 +30,12 @@ test('authenticated user can edit a portfolio item via the edit modal', async ({
     await page.getByRole('button', { name: /sign in/i }).click();
     await expect(page).toHaveURL(/\/(app)?$/);
 
-    // Go to portfolio — switch to table view
     await page.goto('/app/portfolio');
-    await page.locator('button').filter({ has: page.locator('svg') }).nth(1).click(); // list/table view toggle
 
-    // Click the card name cell to open the edit modal (avoid clicking inputs in the row)
-    await page.locator('tr').filter({ hasText: cardName }).locator('td').nth(1).click({ timeout: 30000 });
-    await expect(page.getByRole('heading', { name: /edit/i })).toBeVisible();
+    // In grid mode, clicking the card name opens the edit modal directly
+    await expect(page.getByText(cardName).first()).toBeVisible({ timeout: 15000 });
+    await page.getByText(cardName).first().click();
+    await expect(page.getByRole('heading', { name: /edit/i })).toBeVisible({ timeout: 10000 });
 
     // Update quantity — label text is "Quantity" but has no htmlFor, so find input after label
     const quantityInput = page.locator('input[type="number"]').first();

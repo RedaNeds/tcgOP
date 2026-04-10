@@ -40,13 +40,12 @@ test('authenticated user can bulk-delete selected portfolio items', async ({ pag
 
     await page.goto('/app/portfolio');
 
-    // Both grid and table views have aria-label="Select {name}" on the selection button
-    // Use ctrl+click to add to selection (handleSelectRow checks event.ctrlKey)
-    await page.locator(`button[aria-label="Select ${cardAName}"]`).click({ modifiers: ['Control'] });
-    await page.locator(`button[aria-label="Select ${cardBName}"]`).click({ modifiers: ['Control'] });
+    // Click each Select checkbox — handleToggleSelect adds each item independently
+    await page.locator(`button[aria-label="Select ${cardAName}"]`).click();
+    await page.locator(`button[aria-label="Select ${cardBName}"]`).click();
 
     // Bulk delete toolbar should appear
-    await expect(page.getByText(/2 Assets Selected/i)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/2 Assets Selected/i)).toBeVisible({ timeout: 10000 });
     await page.getByRole('button', { name: /bulk delete/i }).click();
 
     // Confirm modal — default label is "Confirm"

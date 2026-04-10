@@ -119,6 +119,14 @@ export function PortfolioClient({ initialItems, initialBinders = [] }: Portfolio
         }
     };
 
+    // Toggle a single item in/out of selection (used by checkbox buttons)
+    const handleToggleSelect = (id: string) => {
+        const next = new Set(selectedIds);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        setSelectedIds(next);
+    };
+
     const handleSelectRow = (id: string, index?: number, event?: React.MouseEvent) => {
         if (event?.shiftKey && lastSelectedIndex !== null && index !== undefined) {
             const start = Math.min(lastSelectedIndex, index);
@@ -363,7 +371,7 @@ export function PortfolioClient({ initialItems, initialBinders = [] }: Portfolio
                                 key={item.id} 
                                 item={item} 
                                 isSelected={selectedIds.has(item.id)}
-                                onSelect={handleSelectRow}
+                                onSelect={handleToggleSelect}
                                 onRemove={(id) => setConfirmAction({ type: 'single', id })}
                                 onEdit={setEditingItem}
                             />
@@ -393,7 +401,7 @@ export function PortfolioClient({ initialItems, initialBinders = [] }: Portfolio
                                 return (
                                     <tr key={item.id} className={cn("hover:bg-muted/20 transition-all group cursor-pointer", isSelected && "bg-primary/5")} onClick={() => setEditingItem(item)}>
                                         <td className="p-4 text-center">
-                                            <button onClick={(e) => { e.stopPropagation(); handleSelectRow(item.id); }} aria-label={`Select ${item.name}`}>
+                                            <button onClick={(e) => { e.stopPropagation(); handleToggleSelect(item.id); }} aria-label={`Select ${item.name}`}>
                                                 {isSelected ? <CheckSquare size={16} className="text-primary" /> : <Square size={16} className="text-muted-foreground" />}
                                             </button>
                                         </td>

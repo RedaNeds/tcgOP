@@ -20,7 +20,7 @@ test('user can register, login, and open dashboard add-asset modal', async ({ pa
   await expect(page).toHaveURL(/\/(app)?$/);
   await page.goto('/app');
   await expect(page).toHaveURL(/\/app/);
-  await expect(page.getByText(/command center/i)).toBeVisible();
+  await expect(page.getByText(/command center/i).first()).toBeVisible();
 
   await page.getByRole('button', { name: /add your first card/i }).click();
   await expect(page.getByRole('heading', { name: /locate asset/i })).toBeVisible();
