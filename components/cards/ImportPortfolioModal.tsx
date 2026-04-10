@@ -1,0 +1,230 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, UploadCloud, FileType, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useToast } from '@/components/ui/toast';
+import { importPortfolioCSV, ImportResult } from '@/lib/actions/import';
+
+interface ImportPortfolioModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export function ImportPortfolioModal({ isOpen, onClose }: ImportPortfolioModalProps) {
+    const { toast } = useToast();
+    const [file, setFile] = useState<File | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [result, setResult] = useState<ImportResult | null>(null);
+    
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, [onClose]);
+
+    // Reset state when opened
+    useEffect(() => {
+        if (isOpen) {
+            setFile(null);
+            setResult(null);
+            setIsSubmitting(false);
+            setIsDragging(false);
+        }
+    }, [isOpen]);
+
+    if (!isOpen) return null;
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const selected = e.target.files[0];
+            if (selected.type === 'text/csv' || selected.name.endsWith('.csv')) {
+                setFile(selected);
+            } else {
+                toast('Please select a valid CSV file', 'error');
+            }
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            const dropped = e.dataTransfer.files[0];
+            if (dropped.type === 'text/csv' || dropped.name.endsWith('.csv')) {
+                setFile(dropped);
+            } else {
+                toast('Please drop a valid CSV file', 'error');
+            }
+        }
+    };
+
+    const handleImport = async () => {
+        if (!file) return;
+        setIsSubmitting(true);
+        setResult(null);
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const importResult = await importPortfolioCSV(formData);
+            setResult(importResult);
+            if (importResult.success > 0) {
+                toast(`Successfully imported ${importResult.success} cards`, 'success');
+            } else if (importResult.errors.length > 0) {
+                toast('Import finished with errors', 'error');
+            } else {
+                toast('No valid records found to import', 'info');
+            }
+        } catch (error: any) {
+            console.error('Import failed:', error);
+            toast(error.message || 'Failed to import CSV', 'error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    return (
+        <AnimatePresence>
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    role="dialog"
+                    aria-modal="true"
+                    className="bg-card w-full max-w-lg rounded-2xl border border-border shadow-2xl overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="p-6">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold">Mass Import CSV</h2>
+                            <button onClick={onClose} className="p-2 hover:bg-secondary rounded-full transition-colors">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {!result ? (
+                            <div className="space-y-6">
+                                <p className="text-sm text-muted-foreground">
+                                    Upload a CSV file representing your portfolio. Please ensure there is a <strong className="text-foreground">Code</strong> column (e.g. OP01-001) to identify cards. You can match the columns generated by our Export feature.
+                                </p>
+                                
+                                <div 
+                                    className={`relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-10 text-center transition-colors
+                                    ${isDragging ? 'border-primary bg-primary/5' : 'border-border bg-secondary/10'}
+                                    ${file ? 'border-green-500/50 bg-green-500/5' : 'hover:border-primary/50'}`}
+                                    onDragOver={handleDragOver}
+                                    onDragLeave={handleDragLeave}
+                                    onDrop={handleDrop}
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <input 
+                                        type="file" 
+                                        ref={fileInputRef} 
+                                        className="hidden" 
+                                        accept=".csv,text/csv" 
+                                        onChange={handleFileChange}
+                                    />
+                                    
+                                    {file ? (
+                                        <>
+                                            <div className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mb-4">
+                                                <FileType size={32} />
+                                            </div>
+                                            <p className="font-bold">{file.name}</p>
+                                            <p className="text-sm text-muted-foreground mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="w-16 h-16 bg-primary/20 text-primary rounded-full flex items-center justify-center mb-4">
+                                                <UploadCloud size={32} />
+                                            </div>
+                                            <p className="font-bold">Click to upload or drag and drop</p>
+                                            <p className="text-sm text-muted-foreground mt-1">CSV file only</p>
+                                        </>
+                                    )}
+                                </div>
+
+                                <div className="mt-6 border-t border-border flex gap-3 pt-4">
+                                    <button
+                                        onClick={onClose}
+                                        className="flex-1 py-2.5 rounded-lg font-medium hover:bg-secondary transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleImport}
+                                        disabled={!file || isSubmitting}
+                                        className="flex-1 py-2.5 rounded-lg font-black bg-primary text-primary-foreground hover:brightness-110 disabled:opacity-50 disabled:hover:brightness-100 transition-all flex items-center justify-center gap-2"
+                                    >
+                                        {isSubmitting ? (
+                                            <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        ) : 'Import Portfolio'}
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="space-y-6">
+                                <div className="p-6 bg-secondary/20 rounded-xl text-center space-y-4">
+                                    <div className="flex justify-center">
+                                        <CheckCircle2 size={48} className="text-green-500" />
+                                    </div>
+                                    <h3 className="text-2xl font-black">Import Complete</h3>
+                                    <div className="flex justify-center gap-6 text-sm">
+                                        <div className="text-center">
+                                            <div className="font-black text-2xl text-foreground">{result.success}</div>
+                                            <div className="text-muted-foreground">Imported</div>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="font-black text-2xl text-foreground">{result.skipped}</div>
+                                            <div className="text-muted-foreground">Skipped</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {result.errors.length > 0 && (
+                                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl max-h-40 overflow-y-auto p-4 text-sm">
+                                        <div className="flex items-center gap-2 text-red-500 font-bold mb-2">
+                                            <AlertCircle size={16} /> Skipped/Error Lines Activity Log:
+                                        </div>
+                                        <ul className="list-disc pl-5 text-red-400 space-y-1">
+                                            {result.errors.map((err, i) => (
+                                                <li key={i}>{err}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                <div className="mt-6 border-t border-border pt-4">
+                                    <button
+                                        onClick={onClose}
+                                        className="w-full py-2.5 rounded-lg font-black bg-secondary hover:bg-secondary/70 transition-colors"
+                                    >
+                                        Done
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
+            </div>
+        </AnimatePresence>
+    );
+}
